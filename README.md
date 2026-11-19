@@ -1,5 +1,7 @@
 # codex-plain-style
 
+[中文说明](#为什么改提示词) · [English overview and quick start](#english)
+
 如果你请 Codex 写说明或回消息，它却总像在写技术交接，这个项目提供了一套可以在本机试用的中文写作规则。它改的是 Codex 收到的提示词，不改模型。例如，让它把“已 read-back，gate passed”写成“保存后重新打开核对过，和改的内容一致”：做了什么、查到什么都还在，读者不用先懂行话。
 
 | 你想做什么 | 从这里开始 |
@@ -113,7 +115,25 @@ python3 scripts/build.py --profile generic --verify ~/.codex/prompts/codex-plain
 
 ## English
 
-A prompt-level fix for Codex's writing style. The 6.2 base instructions carry heavy style policing (31 "Do not" in 27,750 characters, one every 895, against 15 in 21,524 for 6.1) plus a large frontend/coding section that fires on non-coding work, which leaves replies terse, jargon-dense and defensive. This repo extracts the template Codex already downloaded into `~/.codex/models_cache.json`, applies eight anchored edits that relax style policing, replace the coding sections with a pointer to a skill, and append plain-language user rules, then writes the result to a file referenced by `model_instructions_file`. No proprietary template text is redistributed; the build always starts from the local cache. Built with `python3 scripts/build.py`, verified against a reference build with `--verify`. Evidence: a reproducible 13-question, three-arm comparison in `eval/` (two rubrics: content usability saturates at B 156 / A 154 / C 154; subjective usability separates them at C 140 / A 134 / B 128). Single-turn questions only; no multi-turn, tool-use or efficiency measurement.
+**Plain-language writing for Codex.** If you ask Codex to explain a change and get a handoff full of jargon, these rules ask it to say what it did and what it checked. For example, “Read-back complete; gate passed” becomes “I reopened the saved file and checked that it matched the edit.” The included rules focus on Chinese writing. The method also works as a starting point for editing your own assistant’s instructions.
+
+### Try it locally
+
+You need Git, Python 3, and a Codex installation that has already downloaded its model cache. The template was tested with Codex 0.169. On macOS or Linux, run:
+
+```bash
+git clone https://github.com/PiscesHu-education/codex-plain-style.git
+cd codex-plain-style
+python3 scripts/build.py --dry-run
+```
+
+This previews the instructions without changing your settings. To use them:
+
+1. Run `python3 scripts/build.py`. It generates a prompt file and prints its path.
+2. Set `model_instructions_file` in `~/.codex/config.toml` to that file’s **absolute path**. If the setting already exists, note its old value before replacing it. See the [configuration example](config-examples/config-snippet.toml).
+3. Copy the [coding skill](skill/code-style/SKILL.md) into your Codex skills directory under `code-style/SKILL.md`, then start a new chat. To switch back, restore the previous setting (or remove it if it was new) and start another chat.
+
+To adapt the rules, start with the [generic profile](rules/profiles.toml). For the reasoning behind the edits, see the [prompt diagnosis guide](skill/prompt-diagnose/SKILL.md). The [evaluation results](eval/results.md) compare three prompt versions on 13 single-turn tasks. They report the original experiment, not a new evaluation of this public profile.
 
 ## License
 
