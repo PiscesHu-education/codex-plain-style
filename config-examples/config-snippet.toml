@@ -1,0 +1,9 @@
+# Put these two lines in ~/.codex/config.toml (or under a [profiles.<name>] table).
+# Point the value at wherever build.py wrote the file.
+
+model_instructions_file = "/Users/you/.codex/prompts/codex-plain-style.md"
+
+# Optional, only for the codex CLI: the desktop app supplies its own
+# developer instructions and overrides this value, so the rules that must
+# always apply live in the generated file, not here.
+# developer_instructions = ""

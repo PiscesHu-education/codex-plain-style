@@ -1,0 +1,11 @@
+# Placeholder values for rules/zh.rules.md.
+# Pick one with build.py --profile. Copy this file to profiles.local.toml
+# (gitignored) to keep your own values out of the repository.
+
+[generic]
+# Shown when the model describes your work. Keep it to one sentence.
+identity = "我需要你按我的背景来选词：我熟悉的部分可以直接用行话，我不熟悉的技术细节请用普通话讲清楚。"
+style_skill_examples = "例如课程口播、演示文稿、报告模板"
+dependency_map = "同一份内容在别的文件或系统里有没有副本、前后段落和术语要不要跟着改、相关的规则或 skill 会不会互相打架"
+concern_scope = "我给的方案本身"
+ask_first = "覆盖我的原稿、对外发布、删除文件、花钱"
